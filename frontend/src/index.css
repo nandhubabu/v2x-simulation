@@ -460,4 +460,53 @@ button.warning:hover {
   color: #475569;
   white-space: nowrap;
   flex-shrink: 0;
-}
+}
+
+/* ── Minimize button ─────────────────────────────────────── */
+.cp-minimize-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 3px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.cp-minimize-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  transform: none;
+}
+
+.cp-minimize-btn:active {
+  transform: scale(0.92);
+}
+
+/* ── Collapse body ───────────────────────────────────────── */
+.cp-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  max-height: 1000px;           /* large enough for content */
+  opacity: 1;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.cp-body-hidden {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* When minimized, tighten the panel gap/padding */
+.cp-minimized {
+  gap: 0;
+}
+

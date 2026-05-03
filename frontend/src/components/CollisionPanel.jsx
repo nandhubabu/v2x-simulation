@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ShieldCheck, Radio, AlertTriangle, Wifi, Activity,
-  Car, Ambulance, TrafficCone, ArrowRightLeft, Zap
+  Car, Ambulance, TrafficCone, ArrowRightLeft, Zap, ChevronDown
 } from 'lucide-react';
 
 // ── helpers ────────────────────────────────────────────────────────────────
@@ -29,6 +29,7 @@ export default function CollisionPanel({ vehicles = [], trafficLights = [], haza
   const [avoided, setAvoided]     = useState(0);
   const [v2vCount, setV2vCount]   = useState(0);
   const [v2iCount, setV2iCount]   = useState(0);
+  const [minimized, setMinimized] = useState(false);
   const prevStateRef              = useRef({});
   const logRef                    = useRef(null);
 
@@ -116,7 +117,7 @@ export default function CollisionPanel({ vehicles = [], trafficLights = [], haza
   const emerg    = vehicles.filter(v => v.type === 'emergency').length;
 
   return (
-    <div className="collision-panel panel">
+    <div className={`collision-panel panel${minimized ? ' cp-minimized' : ''}`}>
       {/* ── Header ── */}
       <div className="cp-header">
         <div className="cp-title-row">
@@ -124,8 +125,21 @@ export default function CollisionPanel({ vehicles = [], trafficLights = [], haza
           <span className="cp-title">Collision Avoidance & V2X Comms</span>
           <span className="cp-live-dot" />
           <span className="cp-live-label">LIVE</span>
+          <button
+            className="cp-minimize-btn"
+            onClick={() => setMinimized(m => !m)}
+            title={minimized ? 'Expand panel' : 'Minimize panel'}
+          >
+            <ChevronDown
+              size={14}
+              style={{ transform: minimized ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.25s ease' }}
+            />
+          </button>
         </div>
       </div>
+
+      {/* ── Collapsible body ── */}
+      <div className={`cp-body${minimized ? ' cp-body-hidden' : ''}`}>
 
       {/* ── Avoidance stats strip ── */}
       <div className="cp-stats">
@@ -182,6 +196,8 @@ export default function CollisionPanel({ vehicles = [], trafficLights = [], haza
         )}
         {log.map(msg => <LogEntry key={msg.id} msg={msg} />)}
       </div>
+
+      </div> {/* end cp-body */}
     </div>
   );
 }
