@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import Dashboard from './components/Dashboard';
 import Controls from './components/Controls';
 import Scene3D from './components/Scene3D';
+import CollisionPanel from './components/CollisionPanel';
 import './index.css';
 
 function App() {
@@ -53,9 +54,19 @@ function App() {
         </Canvas>
       </div>
 
+      {/* Left column: dashboard (top) + controls (bottom) */}
       <div className="ui-overlay" style={{ flexDirection: 'column-reverse' }}>
         <Controls />
         <Dashboard metrics={simulationState.metrics} vehicleCount={simulationState.vehicles.length} />
+      </div>
+
+      {/* Right column: collision avoidance + V2X comms panel */}
+      <div className="ui-overlay-right">
+        <CollisionPanel
+          vehicles={simulationState.vehicles}
+          trafficLights={simulationState.trafficLights}
+          hazards={simulationState.hazards}
+        />
       </div>
     </div>
   );
